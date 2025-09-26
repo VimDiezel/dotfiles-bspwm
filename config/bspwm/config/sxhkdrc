@@ -1,4 +1,4 @@
-#  ███████╗██╗  ██╗██╗  ██╗██╗  ██╗██████╗ ██████╗  ██████╗
+#  █████
 #  ██╔════╝╚██╗██╔╝██║  ██║██║ ██╔╝██╔══██╗██╔══██╗██╔════╝
 #  ███████╗ ╚███╔╝ ███████║█████╔╝ ██║  ██║██████╔╝██║
 #  ╚════██║ ██╔██╗ ██╔══██║██╔═██╗ ██║  ██║██╔══██╗██║
@@ -32,15 +32,15 @@ alt + @space
 # ----- Your Apps ----- #
 
 # Apps (browser, editor, filemanager)
-super + {b,e,f}
-	OpenApps --{browser,editor,filemanager}
+super + {b,e}
+	OpenApps --{browser,filemanager}
 
 # Terminal apps (yazi, nvim, ncmpcpp)
-super + {y,v,m}
-	OpenApps --{yazi,nvim,music}
+super + {y,n,m, shift + m}
+	OpenApps --{yazi,nvim,player,music}
 
 # Media apps (Pavucontrol, Telegram, Whatsapp)
-super + {p,t,w}
+super + ctrl + {p,t,h}
 	OpenApps --{soundcontrol,telegram,whats}
 
 # Rice Editor App
@@ -70,15 +70,15 @@ super + alt + b
 	OpenApps --bluetooth
 
 # Clipboard
-super + alt + c
+super + v
 	OpenApps --clipboard
 
 # Screenshot
-super + alt + s
+super + shift + s
 	OpenApps --screenshot
 
 # PowerMenu
-super + alt + p
+super + @backspace
 	OpenApps --powermenu
 
 # Rofi style
@@ -92,7 +92,7 @@ super + alt + k
 # ----- Environment Apps ----- #
 
 # Scratchpad
-super + alt + o
+super + w
 	OpenApps --scratch
 
 # jgmenu
@@ -100,8 +100,8 @@ super + alt + o
   xqp 0 $(xdo id -N Bspwm -n root) && jgmenu --csv-file=~/.config/bspwm/config/jgmenu.txt --config-file=~/.config/bspwm/config/jgmenurc
 
 # Power off, Reboot, Log out, Lockscreen, kill an app
-ctrl + super + alt + {p,r,q,l,k,s}
-	{systemctl poweroff, systemctl reboot,bspc quit,ScreenLocker,xkill,SoftReload}
+# ctrl + super + alt + {p,r,q,l,k,s}
+# 	{systemctl poweroff, systemctl reboot,bspc quit,ScreenLocker,xkill,SoftReload}
 
 # Hide/Show Bar (Polybar and/or eww)
 super + alt + {h,u}
@@ -128,11 +128,11 @@ XF86Audio{Next,Prev,Play,Stop}
 #####################
 
 # Reload BSPWM
-super + alt + r
+super + shift + r
 	bspc wm -r
 
 # Close/Kill node
-super + {_,shift + }x
+super + {_,shift + }c
 	bspc node -{c,k}
 
 # Reload sxhkd Keybinds
@@ -142,7 +142,7 @@ super + Escape
 # ----- Node states and flags ----- #
 
 # Set the node state
-alt + {t,shift + t,a,f}
+super + {x,shift + y,shift + space,t}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # Set the node flags
@@ -156,12 +156,15 @@ ctrl + alt + h
 # ----- Focus/Swap Nodes ----- #
 
 # Rotate desktop
-ctrl + Tab
+super + shift + v
 	bspc node @/ --rotate {90,-90}
 
 # Switch workspace
-super + {Left,Right}
+super + {s,f}
 	bspc desktop -f {prev,next}
+
+super + shift + {1-9,0}
+    bspc node -d '^{1-9,10}' --follow
 
 # Focus or send to the given desktop
 super + {_,ctrl + }{1-9,0}
@@ -181,20 +184,20 @@ alt + Tab
         -kb-element-next "Alt-Tab"
 
 # Focus the node in the given direction
-super + alt + {Left,Down,Up,Right}
+super + {h,j,k,l}
 	{ DIR=west FALLBACK=prev; , DIR=south; , DIR=north; , DIR=east FALLBACK=next; } \
 	bspc node -f $DIR.!sticky.!hidden.local || bspc node -f $FALLBACK.leaf.!sticky.!hidden.local
 
 # Swap Nodes
-ctrl + alt + {Left,Down,Up,Right}
+super + shift + {h,j,k,l}
 	bspc node -s {west,south,north,east}.local
 
 # Focus the last node/desktop
-ctrl + shift {comma,period}
+super {comma,d}
 	bspc {node,desktop} -f last
 
 # Preselect the direction (horizontal, vertical or cancel)
-super + ctrl {h,v,q}
+super + alt {h,v,q}
 	bspc node -p {east,south,cancel}
 
 # ----- Move/Resize Nodes ----- #
@@ -204,7 +207,7 @@ super + ctrl + b
   bspc node @/ -B
 
 # increase/decrease Node
-super + alt + {plus,minus}
+super + {p,u}
 	{ \
        bspc node -z top_right 20 -20 ; bspc node -z bottom_left -20 20; \
     ,  bspc node -z top_right -20 20 ; bspc node -z bottom_left 20 -20; \
@@ -218,13 +221,13 @@ super + ctrl + {plus,minus}
 	}
 
 # Move floating window
-super + shift + {Left,Down,Up,Right}
+super + shift + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # ----- Multi operation functions ----- #
 
 # Close all nodes in current desktop
-super + ctrl + x
+super + ctrl + c
 	bspc query -N -d | xargs -I id -n 1 bspc node id -c
 
 # Close/Kill all unfocused local windows
